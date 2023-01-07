@@ -1,0 +1,51 @@
+---Command to create DATABASE
+Create DATABASE BigDataBootCamp;
+Create DATABASE Test;
+
+---To list down all the databases
+Show Databases;
+
+---Command to drop a DATABASE
+Drop DATABASE Test;
+
+--- Go inside the particular DATABASE
+use BigDataBootCamp;
+
+--- Command to create a TABLE
+Create table if not exists employee
+(
+    id int,
+    name VARCHAR(50)
+);
+
+---Command to list down all the TABLES
+show tables;
+
+
+---Command to list down all the TABLES
+show create table employee;
+
+
+--- Command to create a TABLE
+Create table if not exists employee
+(
+    id int,
+    name VARCHAR(50),
+    salary DOUBLE,
+    hiring_date DATE
+);
+
+--- Syntax 1 To insert data into a TABLE
+insert into employee values(1,'Shashank',1000,'2021-09-15');
+
+--- This statement will fail
+insert into employee values(2,'Rahul','2021-09-15');
+
+--- Syntax 2 To insert data into a TABLE
+insert into employee(salary,name,id) values(2000,'Rahul',2);
+
+--- Insert multiple rows using single insert statement
+insert into employee values(3,'Amit',3000,'2021-09-15'),(4,'Niting',3500,'2021-09-16'),(5,'Kajal',4000,'2021-09-20');
+
+--- Use select command to query the data
+Select * from employee;
