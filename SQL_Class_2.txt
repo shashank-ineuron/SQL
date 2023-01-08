@@ -1,0 +1,63 @@
+Create database class2_db;
+
+use class2_db;
+
+create table if not exists employee(
+    id int,
+    name VARCHAR(50),
+    address VARCHAR(50),
+    city VARCHAR(50)
+);
+
+insert into employee values(1, 'Shashank', 'RJPM', 'Lucknow');
+
+select * from employee;
+
+--- add new column named DOB in the TABLE
+alter table employee add DOB date;
+
+select * from employee;
+
+
+--- modify existing column in a TABLE or change datatype of name column or increase lenght of name column
+alter table employee modify column name varchar(100);
+
+--- delete existing column from given TABLE or remove city column from employee table
+alter table employee drop column city;
+
+select * from employee;
+
+
+--- rename the column name to full_name
+alter table employee rename column name to full_name;
+
+
+create table if not exists employee(
+    id int,
+    name VARCHAR(50),
+    age int,
+    hiring_date date,
+    salary int,
+    city varchar(50)
+);
+
+insert into employee values(1,'Shashank', 24, '2021-08-10', 10000, 'Lucknow');
+
+insert into employee values(2,'Rahul', 25, '2021-08-10', 20000, 'Khajuraho');
+
+insert into employee values(3,'Sunny', 22, '2021-08-11', 11000, 'Banaglore');
+
+insert into employee values(5,'Amit', 25, '2021-08-11', 12000, 'Noida');
+
+insert into employee values(6,'Puneet', 26, '2021-08-12', 50000, 'Gurgaon');
+
+--- add unique integrity constraint on id COLUMN
+
+alter table employee add constraint id_unique UNIQUE(id);
+
+insert into employee values(1,'XYZ', 25, '2021-08-10', 50000, 'Gurgaon');
+
+--- drop constraint from existing TABLE
+alter table employee drop constraint id_unique;
+
+insert into employee values(1,'XYZ', 25, '2021-08-10', 50000, 'Gurgaon');
