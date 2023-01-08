@@ -231,3 +231,47 @@ delete from employee where hiring_date = '2021-08-10';
 
 
 select * from employee;
+
+--- How to apply auto increment
+create table auto_inc_exmp
+(
+  id int auto_increment,
+  name varchar(20),
+  primary key (id)
+);
+
+insert into auto_inc_exmp(name) values('Shashank');
+insert into auto_inc_exmp(name) values('Rahul');
+
+select * from auto_inc_exmp;
+
+--- Use of limit 
+select * from employee;
+select * from employee limit 2;
+
+
+# sorting data in mysql by using 'Order By'
+select * from employee;
+
+# arrage data in ascending order
+select * from employee order by name;
+
+
+# arrage data in descending order
+select * from employee order by name desc;
+
+# display employee data in desc order of salary and if salaries are same for more than one employees
+# arrange their data in ascedinding order of name
+
+select * from employee order by salary desc, name asc;
+
+# when we ignore multilevel ordering
+select * from employee order by salary desc;
+
+# Write a query to find the employee who is getting maximum salary?
+select * from employee order by salary desc limit 1;
+
+
+# Write a query to find the employee who is getting minium salary?
+select * from employee order by salary limit 1;
+
