@@ -139,3 +139,20 @@ select age,
        avg(salary) as avg_salary_by_each_age_group,
        count(*) as total_employees_by_each_age_group
 from employee group by age;
+
+# Use of Having Clause
+# Write a query to find the country where only 1 order was placed
+select country from orders_data group by country having count(*)=1;
+
+# Where Clause and Group By Clause --> What should be the proper sequence??
+# Answer -> Where Clause and then Group By ??
+
+# How to use GROUP_CONCAT
+# Query - Write a query to print distinct states present in the dataset for each country?
+select country, GROUP_CONCAT(state) as states_in_country from orders_data group by country;
+
+select country, GROUP_CONCAT(distinct state) as states_in_country from orders_data group by country;
+
+select country, GROUP_CONCAT(distinct state order by state desc) as states_in_country from orders_data group by country;
+
+select country, GROUP_CONCAT(distinct state order by state desc separator '<->') as states_in_country from orders_data group by country;
