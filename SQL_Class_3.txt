@@ -99,3 +99,43 @@ insert into orders_data values(2,121,'INDIA','Goa');
 insert into orders_data values(1,131,'USA','Seattle');
 insert into orders_data values(6,142,'USA','Seattle');
 insert into orders_data values(7,150,'USA','Seattle');
+
+# Table and Data for Group By
+create table orders_data
+(
+ cust_id int,
+ order_id int,
+ country varchar(50),
+ state varchar(50)
+);
+
+
+insert into orders_data values(1,100,'USA','Seattle');
+insert into orders_data values(2,101,'INDIA','UP');
+insert into orders_data values(2,103,'INDIA','Bihar');
+insert into orders_data values(4,108,'USA','WDC');
+insert into orders_data values(5,109,'UK','London');
+insert into orders_data values(4,110,'USA','WDC');
+insert into orders_data values(3,120,'INDIA','AP');
+insert into orders_data values(2,121,'INDIA','Goa');
+insert into orders_data values(1,131,'USA','Seattle');
+insert into orders_data values(6,142,'USA','Seattle');
+insert into orders_data values(7,150,'USA','Seattle');
+
+select * from orders_data;
+
+# calculate total order placed country wise
+select country, count(*) as order_count_by_each_country from orders_data group by country;
+
+# Write a query to find the total salary by each age group 
+select * from employee;
+select age, sum(salary) as total_salary_by_each_age_group from employee group by age;
+
+# calculate different aggregated metrices for salary
+select age, 
+	   sum(salary) as total_salary_by_each_age_group,
+       max(salary) as max_salary_by_each_age_group,
+       min(salary) as min_salary_by_each_age_group,
+       avg(salary) as avg_salary_by_each_age_group,
+       count(*) as total_employees_by_each_age_group
+from employee group by age;
