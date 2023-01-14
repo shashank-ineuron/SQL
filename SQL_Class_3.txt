@@ -222,3 +222,24 @@ select node,
             else 'INNER'
        END as node_type
 from tree;
+
+create table employees_full_data
+(
+    emp_id int,
+    name varchar(50),
+    mgr_id int
+);
+
+insert into employees_full_data values(1, 'Shashank', 3);
+insert into employees_full_data values(2, 'Amit', 3);
+insert into employees_full_data values(3, 'Rajesh', 4);
+insert into employees_full_data values(4, 'Ankit', 6);
+insert into employees_full_data values(6, 'Nikhil', null);
+
+select * from employees_full_data;
+
+# Write a query to print the distinct names of managers??
+select
+emp.name as manager
+from employees_full_data emp
+inner join (select distinct mgr_id as mgr_id from employees_full_data) mgr on mgr.mgr_id = emp.emp_id;
