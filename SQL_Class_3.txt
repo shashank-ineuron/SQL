@@ -203,3 +203,22 @@ insert into supplier_data values(300,'USA'),(303,'UK');
 # as the suppliers
 select * from customer_order_data where cust_country in 
 (select distinct sup_country from supplier_data);
+
+# Uber SQL Interview questions
+create table tree
+(
+    node int,
+    parent int
+);
+
+insert into tree values (5,8),(9,8),(4,5),(2,9),(1,5),(3,9),(8,null);
+
+select * from tree;
+
+select node,
+       CASE
+            when node not in (select distinct parent from tree where parent is not null) then 'LEAF'
+            when parent is null then 'ROOT'
+            else 'INNER'
+       END as node_type
+from tree;
