@@ -156,3 +156,50 @@ select country, GROUP_CONCAT(distinct state) as states_in_country from orders_da
 select country, GROUP_CONCAT(distinct state order by state desc) as states_in_country from orders_data group by country;
 
 select country, GROUP_CONCAT(distinct state order by state desc separator '<->') as states_in_country from orders_data group by country;
+
+# Subqueries in SQL
+create table employees
+(
+    id int,
+    name varchar(50),
+    salary int
+);
+
+insert into employees values(1,'Shashank',5000),(2,'Amit',5500),(3,'Rahul',7000),(4,'Rohit',6000),(5,'Nitin',4000),(6,'Sunny',7500);
+
+select * from employees;
+
+# Write a query to print all those employee records who are getting more salary than 'Rohit'
+
+# Wrong solution -> select * from employees where salary > 6000; 
+select * from employees where salary > (select salary from employees where name='Rohit');
+
+# Use of IN and NOT IN
+# Write a query to print all orders which were placed in 'Seattle' or 'Goa'
+select * from orders_data;
+
+SELECT * FROM orders_data WHERE state in ('Seattle', 'Goa');
+
+create table customer_order_data
+(
+    order_id int,
+    cust_id int,
+    supplier_id int,
+    cust_country varchar(50)
+);
+
+
+insert into customer_order_data values(101,200,300,'USA'),(102,201,301,'INDIA'),(103,202,302,'USA'),(104,203,303,'UK');
+
+create table supplier_data
+(
+    supplier_id int,
+    sup_country varchar(50)
+);
+
+insert into supplier_data values(300,'USA'),(303,'UK');
+
+# write a query to find all customer order data where all coustomers are from same countries 
+# as the suppliers
+select * from customer_order_data where cust_country in 
+(select distinct sup_country from supplier_data);
