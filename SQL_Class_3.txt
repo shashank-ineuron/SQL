@@ -223,6 +223,79 @@ select node,
        END as node_type
 from tree;
 
+# Examples for join
+create table orders
+(
+    order_id int,
+    cust_id int,
+    order_dat date, 
+    shipper_id int
+);
+
+create table customers
+(
+    cust_id int,
+    cust_name varchar(50),
+    country varchar(50)
+);
+
+create table shippers
+(
+    ship_id int,
+    shipper_name varchar(50)
+);
+
+insert into orders values(10308, 2, '2022-09-15', 3);
+insert into orders values(10309, 30, '2022-09-16', 1);
+insert into orders values(10310, 41, '2022-09-19', 2);
+
+insert into customers values(1, 'Neel', 'India');
+insert into customers values(2, 'Nitin', 'USA');
+insert into customers values(3, 'Mukesh', 'UK');
+
+insert into shippers values(3,'abc');
+insert into shippers values(1,'xyz');
+
+select * from orders;
+select * from customers;
+select * from shippers;
+
+# perform inner JOIN
+# get the customer informations for each order order, if value of customer is present in orders TABLE
+select 
+o.*, c.*
+from orders o
+inner join customers c on o.cust_id = c.cust_id;
+
+# Left Join
+select 
+o.*, c.*
+from orders o
+left join customers c on o.cust_id = c.cust_id;
+
+# Right Join
+select 
+o.*, c.*
+from orders o
+right join customers c on o.cust_id = c.cust_id;
+
+
+# Cross Join
+-- select 
+-- o.*, c.*
+-- from orders o
+-- full outer join customers c;
+
+# How to join more than 2 datasets?
+# perform inner JOIN
+# get the customer informations for each order order, if value of customer is present in orders TABLE
+# also get the information of shipper name
+select 
+o.*, c.*, s.*
+from orders o
+inner join customers c on o.cust_id = c.cust_id
+inner join shippers s on o.shipper_id = s.ship_id;
+
 create table employees_full_data
 (
     emp_id int,
