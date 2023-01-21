@@ -110,3 +110,86 @@ insert into employees values(10,11000,'HR');
 
 
 # Query - get one employee from each department who is getting maximum salary (employee can be random if salary is same)
+
+select 
+    tmp.*
+from (select *,
+        row_number() over(partition by dept_name order by salary desc) as row_num
+    from employees) tmp
+where tmp.row_num = 1;
+
+# Query - get one employee from each department who is getting maximum salary (employee can be random if salary is same)
+
+select 
+    tmp.*
+from (select *,
+        row_number() over(partition by dept_name order by salary desc) as row_num
+    from employees) tmp
+where tmp.row_num = 1;
+
+# Query - get all employees from each department who are getting maximum salary
+select 
+    tmp.*
+from (select *,
+        rank() over(partition by dept_name order by salary desc) as rank_num
+    from employees) tmp
+where tmp.rank_num = 1;
+  
+# Query - get all top 2 ranked employees from each department who are getting maximum salary
+select 
+    tmp.*
+from (select *,
+        dense_rank() over(partition by dept_name order by salary desc) as dense_rank_num
+    from employees) tmp
+where tmp.dense_rank_num <= 2;
+
+# Example for lag and lead
+create table daily_sales
+(
+sales_date date,
+sales_amount int
+);
+
+
+insert into daily_sales values('2022-03-11',400);
+insert into daily_sales values('2022-03-12',500);
+insert into daily_sales values('2022-03-13',300);
+insert into daily_sales values('2022-03-14',600);
+insert into daily_sales values('2022-03-15',500);
+insert into daily_sales values('2022-03-16',200);
+
+select * from daily_sales;
+
+select *,
+      lag(sales_amount, 1) over(order by sales_date) as pre_day_sales
+from daily_sales;
+
+# we can use this to replace null with defualt value like 0
+select *,
+	coalesce(lag(sales_amount,1) over(order by sales_date), 0) as prev_sales
+from daily_sales;
+
+# Query - Calculate the differnce of sales with previous day sales
+# Here null will be derived
+select sales_date,
+       sales_amount as curr_day_sales,
+       lag(sales_amount, 1) over(order by sales_date) as prev_day_sales,
+       sales_amount - lag(sales_amount, 1) over(order by sales_date) as sales_diff
+from daily_sales;
+
+# Here we can replace null with 0
+select sales_date,
+       sales_amount as curr_day_sales,
+       lag(sales_amount, 1, 0) over(order by sales_date) as prev_day_sales,
+       sales_amount - lag(sales_amount, 1, 0) over(order by sales_date) as sales_diff
+from daily_sales;
+
+# Diff between lead and lag
+select *,
+      lag(sales_amount, 1) over(order by sales_date) as pre_day_sales
+from daily_sales;
+
+select *,
+      lead(sales_amount, 1) over(order by sales_date) as next_day_sales
+from daily_sales;
+
