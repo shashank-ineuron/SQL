@@ -87,3 +87,26 @@ select *,
        rank() over(partition by shop_id order by sales_amount desc) as rank_val,
        dense_rank() over(partition by shop_id order by sales_amount desc) as dense_rank_val
 from shop_sales_data;
+
+
+create table employees
+(
+    emp_id int,
+    salary int,
+    dept_name VARCHAR(30)
+
+);
+
+insert into employees values(1,10000,'Software');
+insert into employees values(2,11000,'Software');
+insert into employees values(3,11000,'Software');
+insert into employees values(4,11000,'Software');
+insert into employees values(5,15000,'Finance');
+insert into employees values(6,15000,'Finance');
+insert into employees values(7,15000,'IT');
+insert into employees values(8,12000,'HR');
+insert into employees values(9,12000,'HR');
+insert into employees values(10,11000,'HR');
+
+
+# Query - get one employee from each department who is getting maximum salary (employee can be random if salary is same)
