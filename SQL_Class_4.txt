@@ -1,0 +1,71 @@
+# Window Functions
+create table shop_sales_data
+(
+sales_date date,
+shop_id varchar(5),
+sales_amount int
+);
+
+insert into shop_sales_data values('2022-02-14','S1',200);
+insert into shop_sales_data values('2022-02-15','S1',300);
+insert into shop_sales_data values('2022-02-14','S2',600);
+insert into shop_sales_data values('2022-02-15','S3',500);
+insert into shop_sales_data values('2022-02-18','S1',400);
+insert into shop_sales_data values('2022-02-17','S2',250);
+insert into shop_sales_data values('2022-02-20','S3',300);
+
+# Total count of sales for each shop using window function
+# Working functions - SUM(), MIN(), MAX(), COUNT(), AVG()
+
+# If we only use Order by In Over Clause
+select *,
+       sum(sales_amount) over(order by sales_amount desc) as running_sum_of_sales
+from shop_sales_data;
+
+# If we only use Partition By
+select *,
+       sum(sales_amount) over(partition by shop_id) as total_sum_of_sales
+from shop_sales_data;
+
+# If we only use Partition By & Order By together
+select *,
+       sum(sales_amount) over(partition by shop_id order by sales_amount desc) as running_sum_of_sales
+from shop_sales_data;
+
+select *,
+       sum(sales_amount) over(partition by shop_id order by sales_date desc) 
+       as running_sum_of_sales,
+       avg(sales_amount) over(partition by shop_id order by sales_date desc) 
+       as running_avg_of_sales,
+       max(sales_amount) over(partition by shop_id order by sales_date desc) 
+       as running_max_of_sales,
+       min(sales_amount) over(partition by shop_id order by sales_date desc) 
+       as running_min_of_sales
+from shop_sales_data;
+
+create table amazon_sales_data
+(
+    sales_date date,
+    sales_amount int
+);
+
+insert into amazon_sales_data values('2022-08-21',500);
+insert into amazon_sales_data values('2022-08-22',600);
+insert into amazon_sales_data values('2022-08-19',300);
+
+insert into amazon_sales_data values('2022-08-18',200);
+
+insert into amazon_sales_data values('2022-08-25',800);
+
+
+# Query - Calculate the date wise rolling average of amazon sales
+select * from amazon_sales_data;
+
+select *,
+       avg(sales_amount) over(order by sales_date) as rolling_avg
+from amazon_sales_data;
+
+select *,
+       avg(sales_amount) over(order by sales_date) as rolling_avg,
+       sum(sales_amount) over(order by sales_date) as rolling_sum
+from amazon_sales_data;
