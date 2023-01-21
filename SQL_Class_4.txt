@@ -193,3 +193,30 @@ select *,
       lead(sales_amount, 1) over(order by sales_date) as next_day_sales
 from daily_sales;
 
+create table employees(
+  emp_id int,
+  emp_name varchar(50),
+  mobile BIGINT,
+  dept_name varchar(50),
+  salary int 
+);
+
+insert into employees values(1,'Shashank',778768768,'Software',1000);
+insert into employees values(2,'Rahul',876778877,'IT',2000);
+insert into employees values(3,'Amit',098798998,'HR',5000);
+
+insert into employees values(4,'Nikhil',67766767,'IT',3000);
+
+select * from employees;
+
+--- Create views in SQL
+create view employee_data_for_finance as select emp_id, emp_name,salary from employees;
+
+select * from employee_data_for_finance;
+
+--- Create logic for department wise salary sum
+create view department_wise_salary as select dept_name, sum(salary) from employees group by dept_name;
+
+drop view department_wise_salary;
+
+create view department_wise_salary as select dept_name, sum(salary) as total_salary from employees group by dept_name;
