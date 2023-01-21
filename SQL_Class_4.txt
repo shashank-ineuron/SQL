@@ -69,3 +69,21 @@ select *,
        avg(sales_amount) over(order by sales_date) as rolling_avg,
        sum(sales_amount) over(order by sales_date) as rolling_sum
 from amazon_sales_data;
+
+# Rank(), Row_Number(), Dense_Rank() window functions
+
+insert into shop_sales_data values('2022-02-19','S1',400);
+insert into shop_sales_data values('2022-02-20','S1',400);
+insert into shop_sales_data values('2022-02-22','S1',300);
+insert into shop_sales_data values('2022-02-25','S1',200);
+insert into shop_sales_data values('2022-02-15','S2',600);
+insert into shop_sales_data values('2022-02-16','S2',600);
+insert into shop_sales_data values('2022-02-16','S3',500);
+insert into shop_sales_data values('2022-02-18','S3',500);
+insert into shop_sales_data values('2022-02-19','S3',300);
+
+select *,
+       row_number() over(partition by shop_id order by sales_amount desc) as row_num,
+       rank() over(partition by shop_id order by sales_amount desc) as rank_val,
+       dense_rank() over(partition by shop_id order by sales_amount desc) as dense_rank_val
+from shop_sales_data;
