@@ -102,3 +102,60 @@ select * from dept_wise_max_salary;
 
 select * from dept_wise_salary;
 
+
+
+
+--- Write a Query to generate numbers from 1 to 10 in SQL
+
+with recursive generate_numbers as   
+(
+  select 1 as n
+  union 
+  select n+1 from generate_numbers where n<10
+) 
+
+select * from generate_numbers;
+
+
+create table emp_mgr
+(
+id int,
+name varchar(50),
+manager_id int,
+designation varchar(50),
+primary key (id)
+);
+
+
+insert into emp_mgr values(1,'Shripath',null,'CEO');
+insert into emp_mgr values(2,'Satya',5,'SDE');
+insert into emp_mgr values(3,'Jia',5,'DA');
+insert into emp_mgr values(4,'David',5,'DS');
+insert into emp_mgr values(5,'Michael',7,'Manager');
+insert into emp_mgr values(6,'Arvind',7,'Architect');
+insert into emp_mgr values(7,'Asha',1,'CTO');
+insert into emp_mgr values(8,'Maryam',1,'Manager');
+
+
+select * from emp_mgr;
+
+--- for our CTO 'Asha', present her org chart
+
+with recursive emp_hir as  
+(
+   select id, name, manager_id, designation from emp_mgr where name='Asha'
+   UNION
+   select em.id, em.name, em.manager_id, em.designation from emp_hir eh inner join emp_mgr em on eh.id = em.manager_id
+)
+
+select * from emp_hir;
+
+--- Print level of employees as well
+with recursive emp_hir as  
+(
+   select id, name, manager_id, designation, 1 as lvl from emp_mgr where name='Asha'
+   UNION
+   select em.id, em.name, em.manager_id, em.designation, eh.lvl + 1 as lvl from emp_hir eh inner join emp_mgr em on eh.id = em.manager_id
+)
+
+select * from emp_hir;
