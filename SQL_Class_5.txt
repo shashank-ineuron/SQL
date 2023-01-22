@@ -53,3 +53,52 @@ select * from daily_sales;
 select *,
        sum(sales_amount) over(order by sales_date range between interval '6' day preceding and current row) as running_weekly_sum
 from daily_sales;
+
+
+--- Common table expression
+
+create table amazon_employees(
+    emp_id int,
+    emp_name varchar(20),
+    dept_id int,
+    salary int
+
+ );
+
+ insert into amazon_employees values(1,'Shashank', 100, 10000);
+ insert into amazon_employees values(2,'Rahul', 100, 20000);
+ insert into amazon_employees values(3,'Amit', 101, 15000);
+ insert into amazon_employees values(4,'Mohit', 101, 17000);
+ insert into amazon_employees values(5,'Nikhil', 102, 30000);
+
+ create table department
+ (
+    dept_id int,
+    dept_name varchar(20) 
+  );
+
+  insert into department values(100, 'Software');
+    insert into department values(101, 'HR');
+      insert into department values(102, 'IT');
+        insert into department values(103, 'Finance');
+
+--- Write a query to print the name of department along with the total salary paid in each department
+--- Normal approach
+select d.dept_name, tmp.total_salary
+from (select dept_id , sum(salary) as total_salary from amazon_employees group by dept_id) tmp
+inner join department d on tmp.dept_id = d.dept_id;
+
+--- how to do it using with clause??
+with dept_wise_salary as (select dept_id , sum(salary) as total_salary from amazon_employees group by dept_id)
+
+select d.dept_name, tmp.total_salary
+from dept_wise_salary tmp
+inner join department d on tmp.dept_id = d.dept_id;
+
+with dept_wise_salary as (select dept_id , sum(salary) as total_salary from amazon_employees group by dept_id), 
+dept_wise_max_salary as (select dept_id , max(salary) as max_salary from amazon_employees group by dept_id)
+
+select * from dept_wise_max_salary;
+
+select * from dept_wise_salary;
+
